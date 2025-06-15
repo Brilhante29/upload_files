@@ -16,9 +16,10 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "^0.13.0"
+    "zone.js": "^0.14.0"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^17.0.0",
     "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.0",
     "typescript": "~5.3.3"
