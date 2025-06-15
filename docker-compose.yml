@@ -1,0 +1,28 @@
+version: '3'
+services:
+  localstack:
+    image: localstack/localstack
+    environment:
+      - SERVICES=s3
+    ports:
+      - "4566:4566"
+
+  backend:
+    build: ./backend
+    environment:
+      - S3_BUCKET=my-upload-bucket
+      - AWS_ACCESS_KEY_ID=changeme
+      - AWS_SECRET_ACCESS_KEY=changeme
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ENDPOINT_URL=http://localstack:4566
+    ports:
+      - "5000:5000"
+    depends_on:
+      - localstack
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
