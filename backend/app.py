@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import boto3
 import uuid
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 endpoint = os.environ.get('AWS_ENDPOINT_URL')
 s3 = boto3.client('s3', endpoint_url=endpoint) if endpoint else boto3.client('s3')
