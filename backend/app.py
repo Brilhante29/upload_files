@@ -9,6 +9,14 @@ endpoint = os.environ.get('AWS_ENDPOINT_URL')
 s3 = boto3.client('s3', endpoint_url=endpoint) if endpoint else boto3.client('s3')
 BUCKET = os.environ.get('S3_BUCKET')
 
+def ensure_bucket(name: str):
+    try:
+        s3.head_bucket(Bucket=name)
+    except Exception:
+        s3.create_bucket(Bucket=name)
+
+ensure_bucket(BUCKET)
+
 @app.route('/start', methods=['POST'])
 def start_upload():
     key = str(uuid.uuid4())
