@@ -45,4 +45,16 @@ export class AppComponent implements OnInit {
     }).toPromise();
     alert('Upload complete');
   }
+
+  downloadLatest() {
+    if (!this.apiUrl) return;
+    this.http.get(`${this.apiUrl}/latest`, { responseType: 'blob' }).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'latest-file';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
 }

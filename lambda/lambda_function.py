@@ -41,5 +41,22 @@ def lambda_handler(event, context):
             "headers": {"Access-Control-Allow-Origin": "*"},
             "body": json.dumps({"location": resp.get("Location", "")})
         }
+    elif path == "/latest" and method == "GET":
+        objs = s3.list_objects_v2(Bucket=BUCKET).get("Contents", [])
+        if not objs:
+            return {"statusCode": 404, "headers": {"Access-Control-Allow-Origin": "*"}, "body": "No objects"}
+        latest = max(objs, key=lambda o: o["LastModified"])
+        obj = s3.get_object(Bucket=BUCKET, Key=latest["Key"])
+        data = obj["Body"].read()
+        return {
+            "statusCode": 200,
+            "isBase64Encoded": True,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/octet-stream",
+                "Content-Disposition": f"attachment; filename={latest['Key']}"
+            },
+            "body": base64.b64encode(data).decode()
+        }
     else:
         return {"statusCode": 404, "body": "Not Found", "headers": {"Access-Control-Allow-Origin": "*"}}
