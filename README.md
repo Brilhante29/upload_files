@@ -1,16 +1,20 @@
 # Multipart Upload Example
 
-This repository demonstrates a Docker Compose setup with an Angular frontend and a Python backend. All S3 interactions are performed against [LocalStack](https://github.com/localstack/localstack) so no real AWS resources are required. Files are sent in 5&nbsp;MiB chunks through the backend which acts as an API Gateway/Lambda.
+This project demonstrates an Angular frontend uploading files to S3 using multipart uploads.
+Everything runs locally with Docker Compose and [LocalStack](https://github.com/localstack/localstack).
+The frontend talks to an API Gateway which invokes a Lambda function that streams the file parts to S3.
+No real AWS resources are required.
 
 ## Usage
 
-1. Set the desired bucket name in `docker-compose.yml`. The backend creates the bucket automatically when it starts.
-2. Build and start the containers (this will also start LocalStack):
+1. Edit `docker-compose.yml` if you want a different bucket name.
+2. Start the stack:
 
 ```bash
 docker compose up --build
 ```
 
-3. Access the frontend at [http://localhost:4200](http://localhost:4200) and select a file to upload.
+3. When the services are up, open [http://localhost:4200](http://localhost:4200) and choose a file to upload.
 
-The backend exposes `/start`, `/part`, and `/complete` endpoints that map directly to S3's multipart upload API running in LocalStack.
+The Lambda function exposes `/start`, `/part`, and `/complete` paths through API Gateway and writes the
+uploaded object to the configured S3 bucket in 5&nbsp;MiB parts.
