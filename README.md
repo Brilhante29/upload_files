@@ -14,7 +14,8 @@ No real AWS resources are required.
 docker compose up --build
 ```
 
-3. When the services are up, open [http://localhost:4200](http://localhost:4200) and choose a file to upload.
+3. When the services are up, open [http://localhost:8080](http://localhost:8080) to inspect LocalStack resources.
+4. Open [http://localhost:4200](http://localhost:4200) and choose a file to upload.
    Use the **Upload** button to send the file in 5&nbsp;MiB chunks. After the upload completes
    click **Download Latest** to retrieve the most recently uploaded object from the bucket.
 
