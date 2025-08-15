@@ -1,0 +1,5 @@
+node_modules
+frontend/dist
+__pycache__
+frontend/.angular
+config/api_url
